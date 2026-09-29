@@ -1,5 +1,12 @@
 # Task Management API
 
+## Live Demo
+
+🚀 **Live API**: [[https://your-url.onrender.com](https://task-management-api-b7vo.onrender.com/)]
+
+📖 **Interactive Docs**: [https://task-management-api-b7vo.onrender.com/docs]([https://your-url.onrender.com/docs])
+
+
 A clean, production-style REST API for managing tasks. Built with **FastAPI**, **SQLAlchemy**, and **SQLite**.
 
 This project demonstrates core backend skills expected of a junior Python developer:
