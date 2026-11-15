@@ -96,3 +96,21 @@ def test_filter_by_completed():
     done_tasks = client.get("/tasks?completed=true")
     assert len(open_tasks.json()) == 1
     assert len(done_tasks.json()) == 1
+
+
+def test_filter_by_priority():
+    client.post("/tasks", json={"title": "Low", "priority": "low"})
+    client.post("/tasks", json={"title": "Medium", "priority": "medium"})
+    client.post("/tasks", json={"title": "High", "priority": "high"})
+
+    high = client.get("/tasks?priority=high")
+    assert high.status_code == 200
+    assert len(high.json()) == 1
+    assert high.json()[0]["title"] == "High"
+
+    low = client.get("/tasks?priority=low")
+    assert len(low.json()) == 1
+    assert low.json()[0]["priority"] == "low"
+
+    invalid = client.get("/tasks?priority=urgent")
+    assert invalid.status_code == 400
