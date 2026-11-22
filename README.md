@@ -2,10 +2,9 @@
 
 ## Live Demo
 
-🚀 **Live API**: [[https://your-url.onrender.com](https://task-management-api-b7vo.onrender.com/)]
+A hosted demo previously ran at <https://task-management-api-b7vo.onrender.com/>. As of 22 November 2026 that Render service is suspended, so the hosted API and `/docs` page are not available.
 
-📖 **Interactive Docs**: [https://task-management-api-b7vo.onrender.com/docs]([https://your-url.onrender.com/docs])
-
+Run the server locally (below) and open the interactive docs at <http://127.0.0.1:8000/docs>.
 
 A clean, production-style REST API for managing tasks. Built with **FastAPI**, **SQLAlchemy**, and **SQLite**.
 
@@ -125,3 +124,7 @@ task-management-api/
 ---
 
 Built as a portfolio project for junior Python / backend developer roles.
+
+## License
+
+MIT. See [LICENSE](LICENSE).
