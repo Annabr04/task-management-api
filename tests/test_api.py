@@ -114,3 +114,18 @@ def test_filter_by_priority():
 
     invalid = client.get("/tasks?priority=urgent")
     assert invalid.status_code == 400
+
+
+def test_pagination_skip_and_limit():
+    for i in range(5):
+        client.post("/tasks", json={"title": f"Task {i}"})
+    # Default order is created_at desc, so newest first.
+    page = client.get("/tasks?skip=1&limit=2")
+    assert page.status_code == 200
+    data = page.json()
+    assert len(data) == 2
+    assert data[0]["title"] == "Task 3"
+    assert data[1]["title"] == "Task 2"
+    zero = client.get("/tasks?limit=0")
+    # limit ge=1, so invalid should 422
+    assert zero.status_code == 422
