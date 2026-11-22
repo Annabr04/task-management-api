@@ -1,17 +1,25 @@
-from fastapi import FastAPI, Depends, HTTPException, status, Query
-from sqlalchemy.orm import Session
+from contextlib import asynccontextmanager
 from typing import List, Optional
 
-from .database import engine, get_db, Base
-from . import models, schemas
+from fastapi import Depends, FastAPI, HTTPException, Query, status
+from sqlalchemy.orm import Session
 
-# Create tables on startup
-Base.metadata.create_all(bind=engine)
+from . import database, models, schemas
+from .database import Base, get_db
+
+
+@asynccontextmanager
+async def lifespan(app: FastAPI):
+    # Use the current engine so tests can rebind it before startup.
+    Base.metadata.create_all(bind=database.engine)
+    yield
+
 
 app = FastAPI(
     title="Task Management API",
     description="A simple REST API for managing tasks. Built with FastAPI + SQLAlchemy.",
     version="1.0.0",
+    lifespan=lifespan,
 )
 
 
@@ -65,7 +73,12 @@ def list_tasks(
             )
         query = query.filter(models.Task.priority == priority)
 
-    tasks = query.order_by(models.Task.created_at.desc()).offset(skip).limit(limit).all()
+    tasks = (
+        query.order_by(models.Task.created_at.desc(), models.Task.id.desc())
+        .offset(skip)
+        .limit(limit)
+        .all()
+    )
     return tasks
 
 
